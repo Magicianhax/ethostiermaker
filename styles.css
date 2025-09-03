@@ -1,0 +1,482 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #ffffff;
+    color: #000000;
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+    border-bottom: 3px solid #000000;
+    padding-bottom: 20px;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #000000;
+    margin-bottom: 10px;
+}
+
+.header p {
+    font-size: 1.2rem;
+    color: #333333;
+}
+
+.tier-maker {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.tier-list {
+    border: 2px solid #000000;
+    background-color: #f8f8f8;
+}
+
+.tier-row {
+    display: flex;
+    min-height: 100px;
+    border-bottom: 2px solid #000000;
+}
+
+.tier-row:last-child {
+    border-bottom: none;
+}
+
+.tier-label {
+    width: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #ffffff;
+    border-right: 2px solid #000000;
+}
+
+.s-tier .tier-label {
+    background-color: #ff0000;
+}
+
+.a-tier .tier-label {
+    background-color: #ff8000;
+}
+
+.b-tier .tier-label {
+    background-color: #ffff00;
+    color: #000000;
+}
+
+.c-tier .tier-label {
+    background-color: #00ff00;
+    color: #000000;
+}
+
+.d-tier .tier-label {
+    background-color: #0080ff;
+}
+
+.tier-content {
+    flex: 1;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: flex-start;
+    align-content: flex-start;
+    min-height: 80px;
+    background-color: #ffffff;
+}
+
+.tier-content.drag-over {
+    background-color: #e0e0e0;
+    border: 2px dashed #000000;
+}
+
+.people-pool-section {
+    margin-top: 30px;
+}
+
+.add-ethos-user {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border: 2px solid #333333;
+}
+
+.add-ethos-user input {
+    flex: 1;
+    padding: 10px;
+    font-size: 1rem;
+    border: 2px solid #000000;
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.add-ethos-user input:focus {
+    outline: none;
+    border-color: #333333;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.add-ethos-user button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #333333;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.add-ethos-user button:active {
+    background-color: #555555;
+}
+
+.people-pool {
+    border: 2px solid #000000;
+    background-color: #f8f8f8;
+}
+
+.people-pool h3 {
+    padding: 15px;
+    background-color: #000000;
+    color: #ffffff;
+    margin: 0;
+    font-size: 1.3rem;
+    border-bottom: 2px solid #000000;
+}
+
+.pool-content {
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    min-height: 160px;
+    background-color: #ffffff;
+}
+
+.person-item {
+    background-color: #ffffff;
+    border: 2px solid #000000;
+    padding: 15px 10px 10px 10px;
+    cursor: grab;
+    user-select: none;
+    font-weight: bold;
+    color: #000000;
+    border-radius: 0;
+    min-width: 110px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 140px;
+    gap: 15px;
+}
+
+.person-item.ethos-user {
+    background-color: #f8f8f8;
+    border-color: #333333;
+}
+
+.person-item .avatar-container {
+    position: relative;
+    display: inline-block;
+    pointer-events: none;
+}
+
+.person-item .avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 4px solid #000000;
+    object-fit: cover;
+    display: block;
+    pointer-events: none;
+    user-drag: none;
+    -webkit-user-drag: none;
+    -moz-user-drag: none;
+    -ms-user-drag: none;
+}
+
+.person-item .score-ring {
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 5px solid;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.person-item .score-badge {
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #ffffff;
+    border: 2px solid;
+    border-radius: 8px;
+    padding: 2px 6px;
+    font-size: 10px;
+    font-weight: bold;
+    min-width: 25px;
+    text-align: center;
+    z-index: 2;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    pointer-events: none;
+    max-width: 40px;
+}
+
+.person-item .username {
+    font-size: 0.85rem;
+    font-weight: bold;
+    pointer-events: none;
+    user-select: none;
+    word-break: break-word;
+    max-width: 100%;
+    line-height: 1.2;
+    margin-top: 5px;
+}
+
+
+
+.person-item .delete-btn {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #ff0000;
+    color: #ffffff;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    z-index: 10;
+}
+
+.person-item {
+    position: relative;
+}
+
+.person-item .delete-btn:active {
+    background-color: #cc0000;
+}
+
+.person-item:active {
+    cursor: grabbing;
+}
+
+.person-item.dragging {
+    opacity: 0.5;
+    transform: rotate(5deg);
+}
+
+.controls {
+    margin-top: 30px;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.controls button {
+    padding: 12px 24px;
+    font-size: 1rem;
+    background-color: #000000;
+    color: #ffffff;
+    border: 2px solid #000000;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.controls button:active {
+    background-color: #333333;
+}
+
+/* Share Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.modal-content {
+    background-color: #ffffff;
+    margin: 5% auto;
+    padding: 30px;
+    border: 3px solid #000000;
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+    text-align: center;
+}
+
+.modal-content h2 {
+    margin-bottom: 20px;
+    color: #000000;
+    font-size: 1.5rem;
+}
+
+.close {
+    color: #000000;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    cursor: pointer;
+}
+
+.close:active {
+    color: #666666;
+}
+
+#imagePreview {
+    margin: 20px 0;
+    border: 2px solid #000000;
+    display: inline-block;
+    background-color: #f8f8f8;
+    min-height: 200px;
+    width: 100%;
+    max-width: 500px;
+}
+
+#imagePreview img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.share-options {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.share-options button {
+    padding: 12px 20px;
+    font-size: 1rem;
+    background-color: #000000;
+    color: #ffffff;
+    border: 2px solid #000000;
+    cursor: pointer;
+    font-weight: bold;
+    min-width: 150px;
+}
+
+.share-options button:active {
+    background-color: #333333;
+}
+
+#shareBtn {
+    background-color: #2E7BC3;
+    border-color: #2E7BC3;
+}
+
+#shareBtn:active {
+    background-color: #1a5a9e;
+}
+
+/* Loading state */
+.generating {
+    opacity: 0.7;
+    cursor: wait;
+}
+
+.generating::after {
+    content: " (Generating...)";
+    font-size: 0.8rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    .header h1 {
+        font-size: 2rem;
+    }
+    
+    .tier-label {
+        width: 60px;
+        font-size: 1.5rem;
+    }
+    
+    .add-ethos-user {
+        flex-direction: column;
+    }
+    
+    .controls {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .controls button {
+        width: 200px;
+    }
+    
+    .modal-content {
+        width: 95%;
+        margin: 10% auto;
+        padding: 20px;
+    }
+    
+    .share-options {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .share-options button {
+        width: 100%;
+        max-width: 250px;
+    }
+}
+
+@media (max-width: 480px) {
+    .tier-label {
+        width: 50px;
+        font-size: 1.2rem;
+    }
+    
+    .person-item {
+        min-width: 60px;
+        padding: 8px 10px;
+        font-size: 0.9rem;
+    }
+}

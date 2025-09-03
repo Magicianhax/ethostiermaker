@@ -1,0 +1,33 @@
+{
+  "name": "ethos-tier-maker",
+  "version": "1.0.0",
+  "description": "A tier maker powered by Ethos credibility scores for ranking users",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'Static site - no build needed'",
+    "start": "vercel dev",
+    "deploy": "vercel --prod",
+    "preview": "vercel"
+  },
+  "keywords": [
+    "tier-maker",
+    "ethos",
+    "credibility",
+    "ranking",
+    "drag-drop",
+    "web3"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/ethos-tier-maker"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "devDependencies": {
+    "vercel": "^32.0.0"
+  }
+}
