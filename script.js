@@ -45,7 +45,12 @@ class TierMaker {
         toggleDeleteBtn.addEventListener('click', () => this.toggleDeleteMode());
         clearAllBtn.addEventListener('click', () => this.clearAllTiers());
         resetAllBtn.addEventListener('click', () => this.resetAll());
-        shareBtn.addEventListener('click', () => this.openShareModal());
+        if (shareBtn) {
+            shareBtn.addEventListener('click', () => this.openShareModal());
+            console.log('Share button event listener added successfully');
+        } else {
+            console.error('Share button not found!');
+        }
 
         // Share modal functionality
         this.setupShareModal();
@@ -343,8 +348,16 @@ class TierMaker {
         const downloadBtn = document.getElementById('downloadBtn');
         const copyImageBtn = document.getElementById('copyImageBtn');
 
+        if (!modal) {
+            console.error('Share modal not found!');
+            return;
+        }
+
         // Close modal events
-        closeBtn.addEventListener('click', () => this.closeShareModal());
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => this.closeShareModal());
+        }
+        
         window.addEventListener('click', (e) => {
             if (e.target === modal) {
                 this.closeShareModal();
@@ -352,8 +365,19 @@ class TierMaker {
         });
 
         // Share action events
-        downloadBtn.addEventListener('click', () => this.downloadImage());
-        copyImageBtn.addEventListener('click', () => this.copyImageToClipboard());
+        if (downloadBtn) {
+            downloadBtn.addEventListener('click', () => this.downloadImage());
+            console.log('Download button event listener added');
+        } else {
+            console.error('Download button not found!');
+        }
+        
+        if (copyImageBtn) {
+            copyImageBtn.addEventListener('click', () => this.copyImageToClipboard());
+            console.log('Copy image button event listener added');
+        } else {
+            console.error('Copy image button not found!');
+        }
     }
 
     async openShareModal() {
@@ -381,11 +405,13 @@ class TierMaker {
             const canvas = await html2canvas(tierListElement, {
                 backgroundColor: '#ffffff',
                 scale: 2,
-                useCORS: true,
-                allowTaint: true,
+                useCORS: false,
+                allowTaint: false,
                 logging: false,
                 height: tierListElement.scrollHeight,
-                width: tierListElement.scrollWidth
+                width: tierListElement.scrollWidth,
+                foreignObjectRendering: false,
+                removeContainer: true
             });
 
             // Convert to image
@@ -400,7 +426,27 @@ class TierMaker {
 
         } catch (error) {
             console.error('Error generating image:', error);
-            alert(`Failed to generate image: ${error.message}. Please try again.`);
+            
+            // Fallback: Try with simpler options
+            try {
+                console.log('Trying fallback image generation...');
+                const canvas = await html2canvas(tierListElement, {
+                    backgroundColor: '#ffffff',
+                    scale: 1,
+                    useCORS: false,
+                    allowTaint: false,
+                    logging: false
+                });
+                
+                const imageDataUrl = canvas.toDataURL('image/png');
+                this.currentImageData = imageDataUrl;
+                imagePreview.innerHTML = `<img src="${imageDataUrl}" alt="Tier List">`;
+                modal.style.display = 'block';
+                
+            } catch (fallbackError) {
+                console.error('Fallback image generation also failed:', fallbackError);
+                alert(`Failed to generate image. This might be due to browser security restrictions with profile images. Try with text-only entries.`);
+            }
         } finally {
             // Remove loading state
             shareBtn.classList.remove('generating');
