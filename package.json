@@ -5,7 +5,7 @@
   "main": "index.html",
   "scripts": {
     "dev": "vercel dev",
-    "build": "if not exist public mkdir public && copy index.html public\\ && copy styles.css public\\ && copy script.js public\\",
+    "build": "node -e \"const fs = require('fs'); if (!fs.existsSync('public')) fs.mkdirSync('public'); ['index.html', 'styles.css', 'script.js'].forEach(f => fs.copyFileSync(f, 'public/' + f));\"",
     "start": "vercel dev",
     "deploy": "vercel --prod",
     "preview": "vercel"
