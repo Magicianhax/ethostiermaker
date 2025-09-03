@@ -361,6 +361,12 @@ class TierMaker {
         const modal = document.getElementById('shareModal');
         const imagePreview = document.getElementById('imagePreview');
 
+        // Check if html2canvas is loaded
+        if (typeof html2canvas === 'undefined') {
+            alert('Image generation library not loaded. Please refresh the page and try again.');
+            return;
+        }
+
         // Show loading state
         shareBtn.classList.add('generating');
         shareBtn.disabled = true;
@@ -368,11 +374,18 @@ class TierMaker {
         try {
             // Generate image of tier list
             const tierListElement = document.querySelector('.tier-list');
+            
+            // Wait a moment for any pending renders
+            await new Promise(resolve => setTimeout(resolve, 100));
+            
             const canvas = await html2canvas(tierListElement, {
                 backgroundColor: '#ffffff',
                 scale: 2,
                 useCORS: true,
-                allowTaint: true
+                allowTaint: true,
+                logging: false,
+                height: tierListElement.scrollHeight,
+                width: tierListElement.scrollWidth
             });
 
             // Convert to image
@@ -387,7 +400,7 @@ class TierMaker {
 
         } catch (error) {
             console.error('Error generating image:', error);
-            alert('Failed to generate image. Please try again.');
+            alert(`Failed to generate image: ${error.message}. Please try again.`);
         } finally {
             // Remove loading state
             shareBtn.classList.remove('generating');
@@ -436,4 +449,9 @@ class TierMaker {
 let tierMaker;
 document.addEventListener('DOMContentLoaded', () => {
     tierMaker = new TierMaker();
+    
+    // Debug: Check if all elements are present
+    console.log('Share button:', document.getElementById('shareBtn'));
+    console.log('Share modal:', document.getElementById('shareModal'));
+    console.log('HTML2Canvas loaded:', typeof html2canvas !== 'undefined');
 });
